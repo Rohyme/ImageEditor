@@ -15,7 +15,7 @@ import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
 import iamutkarshtiwari.github.io.ananas.editimage.ModuleConfig;
 import iamutkarshtiwari.github.io.ananas.editimage.adapter.FilterAdapter;
-import iamutkarshtiwari.github.io.ananas.editimage.fliter.PhotoProcessing;
+import iamutkarshtiwari.github.io.ananas.editimage.filter.PhotoProcessing;
 import iamutkarshtiwari.github.io.ananas.editimage.view.imagezoom.ImageViewTouchBase;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +48,7 @@ public class FilterListFragment extends BaseEditFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mainView = inflater.inflate(R.layout.fragment_edit_image_fliter, null);
-        loadingDialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
+        loadingDialog = BaseActivity.Companion.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
                 false);
         return mainView;
     }
@@ -160,7 +160,7 @@ public class FilterListFragment extends BaseEditFragment {
 
             Bitmap srcBitmap = Bitmap.createBitmap(activity.getMainBit().copy(
                     Bitmap.Config.RGB_565, true));
-            return PhotoProcessing.filterPhoto(srcBitmap, filterIndex);
+            return PhotoProcessing.INSTANCE.filterPhoto(srcBitmap, filterIndex);
         });
     }
 

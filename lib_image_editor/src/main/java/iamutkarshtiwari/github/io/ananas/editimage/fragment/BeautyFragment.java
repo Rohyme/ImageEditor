@@ -13,7 +13,7 @@ import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
 import iamutkarshtiwari.github.io.ananas.editimage.ModuleConfig;
-import iamutkarshtiwari.github.io.ananas.editimage.fliter.PhotoProcessing;
+import iamutkarshtiwari.github.io.ananas.editimage.filter.PhotoProcessing;
 import iamutkarshtiwari.github.io.ananas.editimage.view.imagezoom.ImageViewTouchBase;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -67,7 +67,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
 
         smoothValueBar = mainView.findViewById(R.id.smooth_value_bar);
         whiteValueBar = mainView.findViewById(R.id.white_skin_value_bar);
-        dialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
+        dialog = BaseActivity.Companion.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
                 false);
         return mainView;
     }
@@ -129,7 +129,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
                     activity.getMainBit().copy(
                             Bitmap.Config.ARGB_8888, true)
             );
-            PhotoProcessing.handleSmoothAndWhiteSkin(srcBitmap, smoothVal, whiteSkinVal);
+            PhotoProcessing.INSTANCE.handleSmoothAndWhiteSkin(srcBitmap, smoothVal, whiteSkinVal);
             return srcBitmap;
         });
     }

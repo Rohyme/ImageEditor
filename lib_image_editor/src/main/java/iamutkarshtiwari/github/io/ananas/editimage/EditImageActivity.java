@@ -35,11 +35,11 @@ import iamutkarshtiwari.github.io.ananas.editimage.fragment.BeautyFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.BrightnessFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.FilterListFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.MainMenuFragment;
-import iamutkarshtiwari.github.io.ananas.editimage.fragment.paint.PaintFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.RotateFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.SaturationFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.StickerFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.crop.CropFragment;
+import iamutkarshtiwari.github.io.ananas.editimage.fragment.paint.PaintFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.interfaces.OnLoadingDialogListener;
 import iamutkarshtiwari.github.io.ananas.editimage.interfaces.OnMainBitmapChangeListener;
 import iamutkarshtiwari.github.io.ananas.editimage.utils.BitmapUtils;
@@ -60,7 +60,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static iamutkarshtiwari.github.io.ananas.editimage.ImageEditorConstantsKt.*;
+import static iamutkarshtiwari.github.io.ananas.editimage.ImageEditorConstantsKt.FEATURES_SCREENS;
+import static iamutkarshtiwari.github.io.ananas.editimage.ImageEditorConstantsKt.OUTPUT_PATH;
+import static iamutkarshtiwari.github.io.ananas.editimage.ImageEditorConstantsKt.SOURCE_PATH;
 
 public class EditImageActivity extends BaseActivity implements OnLoadingDialogListener {
     private static final int PERMISSIONS_REQUEST_CODE = 110;
@@ -118,7 +120,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     private RedoUndoController redoUndoController;
     private OnMainBitmapChangeListener onMainBitmapChangeListener;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private ImageEditorScreens  screens;
+    private ImageEditorScreens screens;
 
     public static void start(Activity activity, Intent intent, int requestCode) {
         if (TextUtils.isEmpty(intent.getStringExtra(SOURCE_PATH))) {
@@ -132,7 +134,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_edit);
-        screens =(ImageEditorScreens) getIntent().getSerializableExtra(FEATURES_SCREENS);
+        screens = (ImageEditorScreens) getIntent().getSerializableExtra(FEATURES_SCREENS);
         initView();
         getData();
     }
@@ -161,7 +163,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     }
 
     private void initView() {
-        loadingDialog = BaseActivity.getLoadingDialog(this, R.string.iamutkarshtiwari_github_io_ananas_loading,
+        loadingDialog = BaseActivity.Companion.getLoadingDialog(this, R.string.iamutkarshtiwari_github_io_ananas_loading,
                 false);
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -197,13 +199,13 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
                 this.getSupportFragmentManager());
         stickerFragment = StickerFragment.newInstance();
         filterListFragment = FilterListFragment.newInstance();
-        cropFragment = CropFragment.newInstance();
+        cropFragment = CropFragment.Companion.newInstance();
         rotateFragment = RotateFragment.newInstance();
-        paintFragment = PaintFragment.newInstance();
+        paintFragment = PaintFragment.Companion.newInstance();
         beautyFragment = BeautyFragment.newInstance();
         brightnessFragment = BrightnessFragment.newInstance();
         saturationFragment = SaturationFragment.newInstance();
-        addTextFragment = AddTextFragment.newInstance();
+        addTextFragment = AddTextFragment.Companion.newInstance();
         setOnMainBitmapChangeListener(addTextFragment);
 
         bottomGallery.setAdapter(bottomGalleryAdapter);

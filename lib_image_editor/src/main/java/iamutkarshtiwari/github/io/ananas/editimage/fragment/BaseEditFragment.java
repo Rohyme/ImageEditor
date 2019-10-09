@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
+import iamutkarshtiwari.github.io.ananas.editimage.view.CustomPaintView;
 
 public abstract class BaseEditFragment extends Fragment {
     protected EditImageActivity activity;
@@ -30,4 +31,8 @@ public abstract class BaseEditFragment extends Fragment {
     public abstract void onShow();
 
     public abstract void backToMain();
+
+    public CustomPaintView getCustomPaintView(){
+        return ensureEditActivity().getCustomPaintView();
+    }
 }

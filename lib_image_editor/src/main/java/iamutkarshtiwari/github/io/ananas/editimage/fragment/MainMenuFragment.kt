@@ -13,7 +13,6 @@ import iamutkarshtiwari.github.io.ananas.editimage.fragment.crop.CropFragment
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.paint.PaintFragment
 
 class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
-    private var mainView: View? = null
 
     private var stickerBtn: View? = null
     private var fliterBtn: View? = null
@@ -29,25 +28,24 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView = inflater.inflate(
+        return  inflater.inflate(
             R.layout.fragment_edit_image_main_menu,
             null
         )
-        return mainView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (mainView == null) return
-        stickerBtn = mainView!!.findViewById(R.id.btn_stickers)
-        fliterBtn = mainView!!.findViewById(R.id.btn_filter)
-        cropBtn = mainView!!.findViewById(R.id.btn_crop)
-        rotateBtn = mainView!!.findViewById(R.id.btn_rotate)
-        mTextBtn = mainView!!.findViewById(R.id.btn_text)
-        mPaintBtn = mainView!!.findViewById(R.id.btn_paint)
-        mBeautyBtn = mainView!!.findViewById(R.id.btn_beauty)
-        mBrightnessBtn = mainView!!.findViewById(R.id.btn_brightness)
-        mSaturationBtn = mainView!!.findViewById(R.id.btn_contrast)
+        if (view == null) return
+        stickerBtn = view?.findViewById(R.id.btn_stickers)
+        fliterBtn = view?.findViewById(R.id.btn_filter)
+        cropBtn = view?.findViewById(R.id.btn_crop)
+        rotateBtn = view?.findViewById(R.id.btn_rotate)
+        mTextBtn = view?.findViewById(R.id.btn_text)
+        mPaintBtn = view?.findViewById(R.id.btn_paint)
+        mBeautyBtn = view?.findViewById(R.id.btn_beauty)
+        mBrightnessBtn = view?.findViewById(R.id.btn_brightness)
+        mSaturationBtn = view?.findViewById(R.id.btn_contrast)
 
         stickerBtn?.initView(featuresScreens.withStickers)
         fliterBtn?.initView(featuresScreens.withFilter)

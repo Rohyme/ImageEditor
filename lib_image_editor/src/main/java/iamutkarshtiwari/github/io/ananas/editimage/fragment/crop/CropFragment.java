@@ -38,7 +38,6 @@ public class CropFragment extends BaseEditFragment {
     private static int SELECTED_COLOR = R.color.white;
     private static int UNSELECTED_COLOR = R.color.text_color_gray_3;
 
-    private View mainView;
     private LinearLayout ratioList;
     private CropImageView cropPanel;
     private OnLoadingDialogListener loadingDialogListener;
@@ -60,8 +59,7 @@ public class CropFragment extends BaseEditFragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_crop, null);
-        return mainView;
+        return inflater.inflate(R.layout.fragment_edit_image_crop, null);
     }
 
     private void setUpRatioList() {
@@ -133,8 +131,8 @@ public class CropFragment extends BaseEditFragment {
 
         loadingDialogListener = ensureEditActivity();
 
-        View backToMenu = mainView.findViewById(R.id.back_to_main);
-        ratioList = mainView.findViewById(R.id.ratio_list_group);
+        View backToMenu = getView().findViewById(R.id.back_to_main);
+        ratioList = getView().findViewById(R.id.ratio_list_group);
         setUpRatioList();
         this.cropPanel = ensureEditActivity().cropPanel;
         backToMenu.setOnClickListener(new BackToMenuClick());

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import iamutkarshtiwari.github.io.ananas.R;
@@ -27,7 +28,6 @@ public class BrightnessFragment extends BaseEditFragment {
 
     private BrightnessView mBrightnessView;
     private SeekBar mSeekBar;
-    private View mainView;
 
     public static BrightnessFragment newInstance() {
         return new BrightnessFragment();
@@ -36,14 +36,15 @@ public class BrightnessFragment extends BaseEditFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_brightness, null);
-        mappingView(mainView);
-        return mainView;
+        return inflater.inflate(R.layout.fragment_edit_image_brightness, null);
     }
 
-    private void mappingView(View view) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mSeekBar = view.findViewById(R.id.seekBar);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class BrightnessFragment extends BaseEditFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        View mBackToMenu = mainView.findViewById(R.id.back_to_main);
+        View mBackToMenu = getView().findViewById(R.id.back_to_main);
 
         this.mBrightnessView = ensureEditActivity().brightnessView;
         mBackToMenu.setOnClickListener(new BrightnessFragment.BackToMenuClick());

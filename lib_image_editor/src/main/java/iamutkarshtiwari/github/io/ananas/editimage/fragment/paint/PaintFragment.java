@@ -23,7 +23,6 @@ import iamutkarshtiwari.github.io.ananas.editimage.ModuleConfig;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.BaseEditFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.fragment.MainMenuFragment;
 import iamutkarshtiwari.github.io.ananas.editimage.utils.Matrix3;
-import iamutkarshtiwari.github.io.ananas.editimage.view.CustomPaintView;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -39,12 +38,10 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     private static final float MAX_ALPHA = 255;
     private static final float INITIAL_WIDTH = 50;
 
-    private View mainView;
 
     private boolean isEraser = false;
 
     private View backToMenu;
-    private CustomPaintView customPaintView;
     private LinearLayout eraserView;
     private LinearLayout brushView;
 
@@ -66,8 +63,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_paint, null);
-        return mainView;
+        return inflater.inflate(R.layout.fragment_edit_paint, null);
     }
 
     @Override
@@ -76,11 +72,10 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
 
         loadingDialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
                 false);
-        customPaintView = ensureEditActivity().findViewById(R.id.custom_paint_view);
-        backToMenu = mainView.findViewById(R.id.back_to_main);
-        eraserView = mainView.findViewById(R.id.eraser_btn);
-        brushView = mainView.findViewById(R.id.brush_btn);
-        mainView.findViewById(R.id.settings).setOnClickListener(this);
+        backToMenu = getView().findViewById(R.id.back_to_main);
+        eraserView = getView().findViewById(R.id.eraser_btn);
+        brushView = getView().findViewById(R.id.brush_btn);
+        getView().findViewById(R.id.settings).setOnClickListener(this);
 
         setupOptionsConfig();
 
@@ -89,6 +84,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
         setClickListeners();
         initStroke();
     }
+
 
     private void setupOptionsConfig() {
         brushConfigDialog = new BrushConfigDialog();
@@ -104,10 +100,10 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     }
 
     private void initStroke() {
-        customPaintView.setWidth(INITIAL_WIDTH);
-        customPaintView.setColor(Color.WHITE);
-        customPaintView.setStrokeAlpha(MAX_ALPHA);
-        customPaintView.setEraserStrokeWidth(INITIAL_WIDTH);
+        getCustomPaintView().setWidth(INITIAL_WIDTH);
+        getCustomPaintView().setColor(Color.WHITE);
+        getCustomPaintView().setStrokeAlpha(MAX_ALPHA);
+        getCustomPaintView().setEraserStrokeWidth(INITIAL_WIDTH);
     }
 
     @Override
@@ -154,8 +150,8 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
         activity.mainImage.setVisibility(View.VISIBLE);
         activity.bannerFlipper.showPrevious();
 
-        customPaintView.reset();
-        customPaintView.setVisibility(View.GONE);
+        getCustomPaintView().reset();
+        getCustomPaintView().setVisibility(View.GONE);
     }
 
     public void onShow() {
@@ -163,12 +159,12 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
         activity.mainImage.setImageBitmap(activity.getMainBit());
         activity.bannerFlipper.showNext();
 
-        customPaintView.setVisibility(View.VISIBLE);
+        getCustomPaintView().setVisibility(View.VISIBLE);
     }
 
     private void toggleButtons() {
         isEraser = !isEraser;
-        customPaintView.setEraser(isEraser);
+        getCustomPaintView().setEraser(isEraser);
         ((ImageView) eraserView.findViewById(R.id.eraser_icon)).setImageResource(isEraser ? R.drawable.ic_eraser_enabled : R.drawable.ic_eraser_disabled);
         ((ImageView) brushView.findViewById(R.id.brush_icon)).setImageResource(isEraser ? R.drawable.ic_brush_grey_24dp : R.drawable.ic_brush_white_24dp);
     }
@@ -189,7 +185,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
                 .doOnSubscribe(subscriber -> loadingDialog.show())
                 .doFinally(() -> loadingDialog.dismiss())
                 .subscribe(bitmap -> {
-                    customPaintView.reset();
+                    getCustomPaintView().reset();
                     activity.changeMainBitmap(bitmap, true);
                     backToMain();
                 }, e -> {
@@ -240,8 +236,8 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
         canvas.translate(dx, dy);
         canvas.scale(scale_x, scale_y);
 
-        if (customPaintView.getPaintBit() != null) {
-            canvas.drawBitmap(customPaintView.getPaintBit(), 0, 0, null);
+        if (getCustomPaintView().getPaintBit() != null) {
+            canvas.drawBitmap(getCustomPaintView().getPaintBit(), 0, 0, null);
         }
         canvas.restore();
     }
@@ -270,12 +266,12 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     }
 
     private void updateBrushParams() {
-        customPaintView.setColor(brushColor);
-        customPaintView.setWidth(brushSize);
-        customPaintView.setStrokeAlpha(brushAlpha);
+        getCustomPaintView().setColor(brushColor);
+        getCustomPaintView().setWidth(brushSize);
+        getCustomPaintView().setStrokeAlpha(brushAlpha);
     }
 
     private void updateEraserSize() {
-        customPaintView.setEraserStrokeWidth(eraserSize);
+        getCustomPaintView().setEraserStrokeWidth(eraserSize);
     }
 }

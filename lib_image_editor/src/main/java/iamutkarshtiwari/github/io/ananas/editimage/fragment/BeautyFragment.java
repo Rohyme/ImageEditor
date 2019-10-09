@@ -9,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
@@ -27,7 +30,6 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
 
     public static final int INDEX = ModuleConfig.INDEX_BEAUTY;
 
-    private View mainView;
     private Dialog dialog;
 
     private SeekBar smoothValueBar;
@@ -48,7 +50,6 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mainView =null;
         dialog =null;
         smoothValueBar =null;
         whiteValueBar =null;
@@ -63,20 +64,23 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_beauty, null);
+       return inflater.inflate(R.layout.fragment_edit_image_beauty, null);
+    }
 
-        smoothValueBar = mainView.findViewById(R.id.smooth_value_bar);
-        whiteValueBar = mainView.findViewById(R.id.white_skin_value_bar);
-        dialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
-                false);
-        return mainView;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        smoothValueBar = getView().findViewById(R.id.smooth_value_bar);
+        whiteValueBar = getView().findViewById(R.id.white_skin_value_bar);
+        dialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,false);
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View backToMenu = mainView.findViewById(R.id.back_to_main);
-        backToMenu.setOnClickListener(new BackToMenuClick());// 返回主菜单
+        View backToMenu = getView().findViewById(R.id.back_to_main);
+        backToMenu.setOnClickListener(new BackToMenuClick());
 
         smoothValueBar.setOnSeekBarChangeListener(this);
         whiteValueBar.setOnSeekBarChangeListener(this);

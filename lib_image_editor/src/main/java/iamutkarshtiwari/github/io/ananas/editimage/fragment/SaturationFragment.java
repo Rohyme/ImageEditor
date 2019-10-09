@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import iamutkarshtiwari.github.io.ananas.R;
@@ -24,7 +25,6 @@ public class SaturationFragment extends BaseEditFragment {
     public static final String TAG = SaturationFragment.class.getName();
     private SaturationView mSaturationView;
     private SeekBar mSeekBar;
-    private View mainView;
 
     public static SaturationFragment newInstance() {
         return new SaturationFragment();
@@ -33,12 +33,13 @@ public class SaturationFragment extends BaseEditFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_saturation, null);
-        mappingView(mainView);
-        return mainView;
+        return inflater.inflate(R.layout.fragment_edit_image_saturation, null);
+
     }
 
-    private void mappingView(View view) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mSeekBar = view.findViewById(R.id.seekBar);
     }
 
@@ -51,7 +52,7 @@ public class SaturationFragment extends BaseEditFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        View mBackToMenu = mainView.findViewById(R.id.back_to_main);
+        View mBackToMenu = getView().findViewById(R.id.back_to_main);
 
         this.mSaturationView = ensureEditActivity().saturationView;
         mBackToMenu.setOnClickListener(new SaturationFragment.BackToMenuClick());

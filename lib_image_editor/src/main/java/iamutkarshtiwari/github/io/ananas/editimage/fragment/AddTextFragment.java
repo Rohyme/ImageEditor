@@ -48,7 +48,6 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     public static final int INDEX = ModuleConfig.INDEX_ADDTEXT;
     public static final String TAG = AddTextFragment.class.getName();
 
-    private View mainView;
     private TextStickerView textStickersParentView;
     private ZoomLayout zoomLayout;
 
@@ -64,7 +63,6 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     public void onDestroyView() {
         addedViews = null;
         zoomLayout = null;
-        mainView = null;
         super.onDestroyView();
 
     }
@@ -77,8 +75,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_add_text, container, false);
-        return mainView;
+       return inflater.inflate(R.layout.fragment_edit_image_add_text, container, false);
     }
 
     @Override
@@ -94,10 +91,10 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
 
         zoomLayout = editImageActivity.findViewById(R.id.text_sticker_panel_frame);
 
-        View backToMenu = mainView.findViewById(R.id.back_to_main);
+        View backToMenu = getView().findViewById(R.id.back_to_main);
         backToMenu.setOnClickListener(new BackToMenuClick());
 
-        LinearLayout addTextButton = mainView.findViewById(R.id.add_text_btn);
+        LinearLayout addTextButton = getView().findViewById(R.id.add_text_btn);
         addTextButton.setOnClickListener(this);
     }
 

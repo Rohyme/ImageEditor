@@ -534,6 +534,10 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
         }
     }
 
+    public CustomPaintView getCustomPaintView(){
+        return paintView ;
+    }
+
     public Bitmap getMainBit() {
         return mainBitmap;
     }

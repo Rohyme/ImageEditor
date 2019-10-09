@@ -12,6 +12,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import iamutkarshtiwari.github.io.ananas.BaseActivity;
 import iamutkarshtiwari.github.io.ananas.R;
 import iamutkarshtiwari.github.io.ananas.editimage.EditImageActivity;
@@ -31,7 +34,6 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
 
     private static final int RIGHT_ANGLE = 90;
 
-    private View mainView;
     private RotateImageView rotatePanel;
     private Dialog loadingDialog;
 
@@ -49,10 +51,14 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mainView = inflater.inflate(R.layout.fragment_edit_image_rotate, null);
+       return inflater.inflate(R.layout.fragment_edit_image_rotate, null);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         loadingDialog = BaseActivity.getLoadingDialog(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_loading,
                 false);
-        return mainView;
     }
 
     @Override
@@ -64,11 +70,11 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     }
 
     private void setClickListeners() {
-        View backToMenu = mainView.findViewById(R.id.back_to_main);
+        View backToMenu = getView().findViewById(R.id.back_to_main);
         backToMenu.setOnClickListener(new BackToMenuClick());
 
-        ImageView rotateLeft = mainView.findViewById(R.id.rotate_left);
-        ImageView rotateRight = mainView.findViewById(R.id.rotate_right);
+        ImageView rotateLeft = getView().findViewById(R.id.rotate_left);
+        ImageView rotateRight = getView().findViewById(R.id.rotate_right);
         rotateLeft.setOnClickListener(this);
         rotateRight.setOnClickListener(this);
     }

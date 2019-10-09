@@ -8,8 +8,8 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.sembozdemir.permissionskt.askPermissions
-import iamutkarshtiwari.github.io.ananas.editimage.onEditImageResult
-import iamutkarshtiwari.github.io.ananas.editimage.startImageEditor
+import technivance.github.io.rohyme.editimage.onEditImageResult
+import technivance.github.io.rohyme.editimage.startImageEditor
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage

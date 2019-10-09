@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        android:background="#333333">
+        android:background="@color/editor_main">
 
         <ImageView
             android:id="@+id/back_btn"
@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/back_btn"
             android:gravity="center"
             android:text="@string/iamutkarshtiwari_github_io_ananas_library_name"
-            android:textColor="#ffffff"
+            android:textColor="@color/bar_text_color"
             android:textSize="20sp" />
 
         <ViewFlipper
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:text="@string/iamutkarshtiwari_github_io_ananas_apply"
                 android:textAllCaps="true"
-                android:textColor="#ffffff"
+                android:textColor="@color/bar_text_color"
                 android:textSize="14sp" />
         </ViewFlipper>
     </RelativeLayout>
@@ -67,7 +67,7 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/bottom_banner_height"
         android:layout_alignParentBottom="true"
-        android:background="@color/main_backgroud"
+        android:background="@color/editor_main"
         android:overScrollMode="never" />
 
     <FrameLayout

@@ -1,0 +1,2 @@
+include ':app', ':lib_image_editor'
+rootProject.name='ImageEditor'

@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import java.io.Serializable
 
-
 data class ImageEditorScreens(
     var withPaint: Boolean = false,
     var withAddText: Boolean = true,
@@ -81,7 +80,6 @@ fun onEditImageResult(
         }
     }
 }
-
 
 data class OnImageEdited(
     var onSuccessfulEdit: ((String) -> Unit)? = null,

@@ -25,10 +25,11 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
     private var mSaturationBtn: View? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return  inflater.inflate(
+        return inflater.inflate(
             R.layout.fragment_edit_image_main_menu,
             null
         )
@@ -76,7 +77,7 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
     }
 
     override fun backToMain() {
-        //do nothing
+        // do nothing
     }
 
     override fun onClick(v: View) {
@@ -149,7 +150,6 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
     private val featuresScreens by lazy {
         (arguments?.getSerializable(FEATURES_SCREENS) as? ImageEditorScreens)
             ?: ImageEditorScreens()
-
     }
 
     companion object {

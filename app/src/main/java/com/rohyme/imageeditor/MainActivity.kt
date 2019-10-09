@@ -1,6 +1,5 @@
 package com.rohyme.imageeditor
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,7 +16,6 @@ import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.MediaFile
 import pl.aprilapps.easyphotopicker.MediaSource
 import java.io.File
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,11 +48,10 @@ class MainActivity : AppCompatActivity() {
                     withForcePortrait = true
                     withFilter = false
                 }
-            }?:run {
-                Toast.makeText(this,"Please pick image",Toast.LENGTH_SHORT).show()
+            } ?: run {
+                Toast.makeText(this, "Please pick image", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun pickPicture() {
@@ -70,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         return Uri.fromFile(File(sourceUrl.replaceAfterLast("/", destinationFileURl))).path
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -85,21 +81,21 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onImagePickerError(@NonNull error: Throwable, @NonNull source: MediaSource) {
-                    //Some error handling
+                    // Some error handling
                     error.printStackTrace()
                 }
 
                 override fun onCanceled(@NonNull source: MediaSource) {
-                    //Not necessary to remove any files manually anymore
+                    // Not necessary to remove any files manually anymore
                 }
             })
-        onEditImageResult(requestCode,resultCode,data){
-            onSuccessfulEdit ={
+        onEditImageResult(requestCode, resultCode, data) {
+            onSuccessfulEdit = {
                 loadImage(it)
             }
 
             onNoChanges = {
-                Toast.makeText(this@MainActivity,it,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -110,16 +106,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun loadImage(url :String){
+    fun loadImage(url: String) {
         imagePath = url
         Glide.with(this).load(url).into(imageViewer)
-
     }
 
     companion object {
         const val EDIT_IMAGE_REQUEST = 40233
-
     }
-
-
 }

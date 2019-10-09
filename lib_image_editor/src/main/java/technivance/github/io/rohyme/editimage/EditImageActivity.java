@@ -28,6 +28,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import technivance.github.io.rohyme.BaseActivity;
 import technivance.github.io.rohyme.R;
 import technivance.github.io.rohyme.editimage.fragment.AddTextFragment;
@@ -35,11 +40,10 @@ import technivance.github.io.rohyme.editimage.fragment.BeautyFragment;
 import technivance.github.io.rohyme.editimage.fragment.BrightnessFragment;
 import technivance.github.io.rohyme.editimage.fragment.FilterListFragment;
 import technivance.github.io.rohyme.editimage.fragment.MainMenuFragment;
-import technivance.github.io.rohyme.editimage.fragment.paint.PaintFragment;
 import technivance.github.io.rohyme.editimage.fragment.RotateFragment;
 import technivance.github.io.rohyme.editimage.fragment.SaturationFragment;
-import technivance.github.io.rohyme.editimage.fragment.StickerFragment;
 import technivance.github.io.rohyme.editimage.fragment.crop.CropFragment;
+import technivance.github.io.rohyme.editimage.fragment.paint.PaintFragment;
 import technivance.github.io.rohyme.editimage.interfaces.OnLoadingDialogListener;
 import technivance.github.io.rohyme.editimage.interfaces.OnMainBitmapChangeListener;
 import technivance.github.io.rohyme.editimage.utils.BitmapUtils;
@@ -54,13 +58,10 @@ import technivance.github.io.rohyme.editimage.view.TextStickerView;
 import technivance.github.io.rohyme.editimage.view.imagezoom.ImageViewTouch;
 import technivance.github.io.rohyme.editimage.view.imagezoom.ImageViewTouchBase;
 import technivance.github.io.rohyme.editimage.widget.RedoUndoController;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
-import static technivance.github.io.rohyme.editimage.ImageEditorConstantsKt.*;
+import static technivance.github.io.rohyme.editimage.ImageEditorConstantsKt.FEATURES_SCREENS;
+import static technivance.github.io.rohyme.editimage.ImageEditorConstantsKt.OUTPUT_PATH;
+import static technivance.github.io.rohyme.editimage.ImageEditorConstantsKt.SOURCE_PATH;
 
 public class EditImageActivity extends BaseActivity implements OnLoadingDialogListener {
     private static final int PERMISSIONS_REQUEST_CODE = 110;
@@ -105,7 +106,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
 
     public CustomViewPager bottomGallery;
     private MainMenuFragment mainMenuFragment;
-    public StickerFragment stickerFragment;
+    //    public StickerFragment stickerFragment;
     public FilterListFragment filterListFragment;
     public CropFragment cropFragment;
     public RotateFragment rotateFragment;
@@ -118,7 +119,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     private RedoUndoController redoUndoController;
     private OnMainBitmapChangeListener onMainBitmapChangeListener;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private ImageEditorScreens  screens;
+    private ImageEditorScreens screens;
 
     public static void start(Activity activity, Intent intent, int requestCode) {
         if (TextUtils.isEmpty(intent.getStringExtra(SOURCE_PATH))) {
@@ -132,7 +133,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_edit);
-        screens =(ImageEditorScreens) getIntent().getSerializableExtra(FEATURES_SCREENS);
+        screens = (ImageEditorScreens) getIntent().getSerializableExtra(FEATURES_SCREENS);
         initView();
         getData();
     }
@@ -195,7 +196,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
 
         BottomGalleryAdapter bottomGalleryAdapter = new BottomGalleryAdapter(
                 this.getSupportFragmentManager());
-        stickerFragment = StickerFragment.newInstance();
+//        stickerFragment = StickerFragment.newInstance();
         filterListFragment = FilterListFragment.newInstance();
         cropFragment = CropFragment.newInstance();
         rotateFragment = RotateFragment.newInstance();
@@ -265,7 +266,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     public void onBackPressed() {
         switch (mode) {
             case MODE_STICKERS:
-                stickerFragment.backToMain();
+//                stickerFragment.backToMain();
                 break;
             case MODE_FILTER:
                 filterListFragment.backToMain();
@@ -456,8 +457,8 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
             switch (index) {
                 case MainMenuFragment.INDEX:
                     return mainMenuFragment;
-                case StickerFragment.INDEX:
-                    return stickerFragment;
+//                case StickerFragment.INDEX:
+//                    return stickerFragment;
                 case FilterListFragment.INDEX:
                     return filterListFragment;
                 case CropFragment.INDEX:
@@ -500,7 +501,7 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
         public void onClick(View v) {
             switch (mode) {
                 case MODE_STICKERS:
-                    stickerFragment.applyStickers();
+//                    stickerFragment.applyStickers();
                     break;
                 case MODE_FILTER:
                     filterListFragment.applyFilterImage();
@@ -532,8 +533,8 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
         }
     }
 
-    public CustomPaintView getCustomPaintView(){
-        return paintView ;
+    public CustomPaintView getCustomPaintView() {
+        return paintView;
     }
 
     public Bitmap getMainBit() {

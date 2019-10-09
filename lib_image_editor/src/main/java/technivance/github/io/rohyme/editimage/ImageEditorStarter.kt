@@ -8,13 +8,13 @@ import java.io.Serializable
 data class ImageEditorScreens(
     var withPaint: Boolean = false,
     var withAddText: Boolean = false,
-    var withFilter: Boolean = false,
+    private var withFilter: Boolean = false,
     var withRotate: Boolean = false,
     var withCrop: Boolean = false,
     var withBrightness: Boolean = false,
     var withSaturation: Boolean = false,
     var withForcePortrait: Boolean = true,
-    var withStickers: Boolean = false,
+    private var withStickers: Boolean = false,
     var withBeauty: Boolean = false
 ) : Serializable
 

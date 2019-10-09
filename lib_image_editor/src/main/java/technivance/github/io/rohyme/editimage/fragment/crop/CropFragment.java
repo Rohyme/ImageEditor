@@ -45,6 +45,16 @@ public class CropFragment extends BaseEditFragment {
     private CropRationClick cropRatioClick = new CropRationClick();
     private TextView selectedTextView;
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ratioList =null ;
+        cropPanel =null ;
+        cropRatioClick =null ;
+        selectedTextView =null ;
+    }
+
     private CompositeDisposable disposables = new CompositeDisposable();
 
     public static CropFragment newInstance() {
@@ -208,6 +218,7 @@ public class CropFragment extends BaseEditFragment {
     @Override
     public void onDestroy() {
         disposables.dispose();
+        loadingDialogListener = null ;
         super.onDestroy();
     }
 }

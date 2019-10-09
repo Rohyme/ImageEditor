@@ -115,8 +115,8 @@ public class StickerFragment extends BaseEditFragment {
     @Override
     public void onShow() {
         ensureEditActivity().mode = EditImageActivity.MODE_STICKERS;
-        ensureEditActivity().stickerFragment.getStickerView().setVisibility(
-                View.VISIBLE);
+//        ensureEditActivity().stickerFragment.getStickerView().setVisibility(
+//                View.VISIBLE);
         ensureEditActivity().bannerFlipper.showNext();
     }
 

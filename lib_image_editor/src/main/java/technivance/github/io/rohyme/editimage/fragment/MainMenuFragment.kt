@@ -28,8 +28,8 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        btn_stickers?.initView(featuresScreens.withStickers)
-        btn_filter?.initView(featuresScreens.withFilter)
+        btn_stickers?.initView(false)
+        btn_filter?.initView(false)
         btn_crop?.initView(featuresScreens.withCrop)
         btn_rotate?.initView(featuresScreens.withRotate)
         btn_text?.initView(featuresScreens.withAddText)
@@ -76,7 +76,7 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
 
     private fun onStickClick() {
         ensureEditActivity().bottomGallery.currentItem = StickerFragment.INDEX
-        ensureEditActivity().stickerFragment.onShow()
+//        ensureEditActivity().stickerFragment.onShow()
     }
 
     private fun onFilterClick() {

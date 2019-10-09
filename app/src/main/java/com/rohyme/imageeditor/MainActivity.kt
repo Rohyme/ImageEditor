@@ -8,13 +8,13 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.sembozdemir.permissionskt.askPermissions
-import technivance.github.io.rohyme.editimage.onEditImageResult
-import technivance.github.io.rohyme.editimage.startImageEditor
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import pl.aprilapps.easyphotopicker.MediaFile
 import pl.aprilapps.easyphotopicker.MediaSource
+import technivance.github.io.rohyme.editimage.onEditImageResult
+import technivance.github.io.rohyme.editimage.startImageEditor
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +46,9 @@ class MainActivity : AppCompatActivity() {
             imagePath?.let {
                 startImageEditor(it, getDestinationUrl(it)) {
                     withForcePortrait = true
-                    withFilter = false
+                    withPaint = true
+                    withCrop = true
+                    withRotate = true
                 }
             } ?: run {
                 Toast.makeText(this, "Please pick image", Toast.LENGTH_SHORT).show()

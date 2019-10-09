@@ -15,7 +15,6 @@ import technivance.github.io.rohyme.editimage.fragment.paint.PaintFragment
 
 class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,12 +61,12 @@ class MainMenuFragment : BaseEditFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        when(v) {
-           btn_stickers -> onStickClick()
+        when (v) {
+            btn_stickers -> onStickClick()
             btn_filter -> onFilterClick()
             btn_crop -> onCropClick()
             btn_rotate -> onRotateClick()
-           btn_text -> onAddTextClick()
+            btn_text -> onAddTextClick()
             btn_paint -> onPaintClick()
             btn_beauty -> onBeautyClick()
             btn_brightness -> onBrightnessClick()

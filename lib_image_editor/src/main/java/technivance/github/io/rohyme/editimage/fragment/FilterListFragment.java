@@ -74,30 +74,30 @@ public class FilterListFragment extends BaseEditFragment {
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_FILTER;
-        activity.filterListFragment.setCurrentBitmap(activity.getMainBit());
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        activity.mainImage.setScaleEnabled(false);
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().mode = EditImageActivity.MODE_FILTER;
+        ensureEditActivity().filterListFragment.setCurrentBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+        ensureEditActivity().mainImage.setScaleEnabled(false);
+        ensureEditActivity().bannerFlipper.showNext();
     }
 
     @Override
     public void backToMain() {
-        currentBitmap = activity.getMainBit();
+        currentBitmap = ensureEditActivity().getMainBit();
         filterBitmap = null;
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(0);
-        activity.mainImage.setScaleEnabled(true);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(0);
+        ensureEditActivity().mainImage.setScaleEnabled(true);
+        ensureEditActivity().bannerFlipper.showPrevious();
     }
 
     public void applyFilterImage() {
-        if (currentBitmap == activity.getMainBit()) {
+        if (currentBitmap == ensureEditActivity().getMainBit()) {
             backToMain();
         } else {
-            activity.changeMainBitmap(filterBitmap, true);
+            ensureEditActivity().changeMainBitmap(filterBitmap, true);
             backToMain();
         }
     }
@@ -112,6 +112,7 @@ public class FilterListFragment extends BaseEditFragment {
     public void onDestroy() {
         tryRecycleFilterBitmap();
         compositeDisposable.dispose();
+        loadingDialog =null;
         super.onDestroy();
     }
 
@@ -123,8 +124,8 @@ public class FilterListFragment extends BaseEditFragment {
 
     public void enableFilter(int filterIndex) {
         if (filterIndex == NULL_FILTER_INDEX) {
-            activity.mainImage.setImageBitmap(activity.getMainBit());
-            currentBitmap = activity.getMainBit();
+            ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+            currentBitmap = ensureEditActivity().getMainBit();
             return;
         }
 
@@ -151,7 +152,7 @@ public class FilterListFragment extends BaseEditFragment {
         }
 
         filterBitmap = bitmapWithFilter;
-        activity.mainImage.setImageBitmap(filterBitmap);
+        ensureEditActivity().mainImage.setImageBitmap(filterBitmap);
         currentBitmap = filterBitmap;
     }
 
@@ -162,7 +163,7 @@ public class FilterListFragment extends BaseEditFragment {
     private Single<Bitmap> applyFilter(int filterIndex) {
         return Single.fromCallable(() -> {
 
-            Bitmap srcBitmap = Bitmap.createBitmap(activity.getMainBit().copy(
+            Bitmap srcBitmap = Bitmap.createBitmap(ensureEditActivity().getMainBit().copy(
                     Bitmap.Config.RGB_565, true));
             return PhotoProcessing.filterPhoto(srcBitmap, filterIndex);
         });

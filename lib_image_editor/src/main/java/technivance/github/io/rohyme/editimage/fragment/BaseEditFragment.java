@@ -7,13 +7,9 @@ import technivance.github.io.rohyme.editimage.EditImageActivity;
 import technivance.github.io.rohyme.editimage.view.CustomPaintView;
 
 public abstract class BaseEditFragment extends Fragment {
-    protected EditImageActivity activity;
 
     protected EditImageActivity ensureEditActivity(){
-        if(activity == null){
-            activity = (EditImageActivity) getActivity();
-        }
-        return activity;
+            return (EditImageActivity) getActivity();
     }
 
     @Override

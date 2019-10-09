@@ -50,7 +50,6 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        dialog =null;
         smoothValueBar =null;
         whiteValueBar =null;
         finalBmp =null;
@@ -107,7 +106,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
         whiteSkin = whiteValueBar.getProgress();
 
         if (smooth == 0 && whiteSkin == 0) {
-            activity.mainImage.setImageBitmap(activity.getMainBit());
+            ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
             return;
         }
 
@@ -119,7 +118,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
                 .subscribe(bitmap -> {
                     if (bitmap == null)
                         return;
-                    activity.mainImage.setImageBitmap(bitmap);
+                    ensureEditActivity().mainImage.setImageBitmap(bitmap);
                     finalBmp = bitmap;
                 }, e -> {
                     // Do nothing on error
@@ -130,7 +129,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
     private Single<Bitmap> beautify(int smoothVal, int whiteSkinVal) {
         return Single.fromCallable(() -> {
             Bitmap srcBitmap = Bitmap.createBitmap(
-                    activity.getMainBit().copy(
+                    ensureEditActivity().getMainBit().copy(
                             Bitmap.Config.ARGB_8888, true)
             );
             PhotoProcessing.handleSmoothAndWhiteSkin(srcBitmap, smoothVal, whiteSkinVal);
@@ -152,27 +151,27 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
         smoothValueBar.setProgress(0);
         whiteValueBar.setProgress(0);
 
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
-        activity.mainImage.setImageBitmap(activity.getMainBit());// 返回原图
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());// 返回原图
 
-        activity.mainImage.setVisibility(View.VISIBLE);
-        activity.mainImage.setScaleEnabled(true);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().mainImage.setScaleEnabled(true);
+        ensureEditActivity().bannerFlipper.showPrevious();
     }
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_BEAUTY;
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        activity.mainImage.setScaleEnabled(false);
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().mode = EditImageActivity.MODE_BEAUTY;
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+        ensureEditActivity().mainImage.setScaleEnabled(false);
+        ensureEditActivity().bannerFlipper.showNext();
     }
 
     public void applyBeauty() {
         if (finalBmp != null && (smooth != 0 || whiteSkin != 0)) {
-            activity.changeMainBitmap(finalBmp, true);
+            ensureEditActivity().changeMainBitmap(finalBmp, true);
         }
 
         backToMain();
@@ -182,6 +181,7 @@ public class BeautyFragment extends BaseEditFragment implements SeekBar.OnSeekBa
     public void onDestroy() {
         super.onDestroy();
         disposable.dispose();
+        dialog =null;
     }
 
     @Override

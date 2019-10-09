@@ -82,15 +82,11 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         EditImageActivity editImageActivity = ensureEditActivity();
-
         inputMethodManager = (InputMethodManager) editImageActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-
         textStickersParentView = editImageActivity.findViewById(R.id.text_sticker_panel);
         textStickersParentView.setDrawingCacheEnabled(true);
         addedViews = new ArrayList<>();
-
         zoomLayout = editImageActivity.findViewById(R.id.text_sticker_panel_frame);
-
         View backToMenu = getView().findViewById(R.id.back_to_main);
         backToMenu.setOnClickListener(new BackToMenuClick());
 
@@ -100,7 +96,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
 
     private void showTextEditDialog(final View rootView, String text, int colorCode) {
         TextEditorDialogFragment textEditorDialogFragment =
-                TextEditorDialogFragment.show(activity, text, colorCode);
+                TextEditorDialogFragment.show(ensureEditActivity(), text, colorCode);
         textEditorDialogFragment.setOnTextEditorListener((inputText, colorCode1) -> editText(rootView, inputText, colorCode1));
     }
 
@@ -128,7 +124,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.add_text_btn) {
-            TextEditorDialogFragment textEditorDialogFragment = TextEditorDialogFragment.show(activity);
+            TextEditorDialogFragment textEditorDialogFragment = TextEditorDialogFragment.show(ensureEditActivity());
             textEditorDialogFragment.setOnTextEditorListener(this::addText);
         }
     }
@@ -146,7 +142,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
 
     @Override
     public void onMainBitmapChange() {
-        textStickersParentView.updateImageBitmap(activity.getMainBit());
+        textStickersParentView.updateImageBitmap(ensureEditActivity().getMainBit());
     }
 
     private final class BackToMenuClick implements OnClickListener {
@@ -160,19 +156,19 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
     public void backToMain() {
         hideInput();
         clearAllStickers();
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
-        activity.mainImage.setVisibility(View.VISIBLE);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().bannerFlipper.showPrevious();
         textStickersParentView.setVisibility(View.GONE);
     }
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_TEXT;
-        activity.mainImage.setVisibility(View.GONE);
-        textStickersParentView.updateImageBitmap(activity.getMainBit());
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().mode = EditImageActivity.MODE_TEXT;
+        ensureEditActivity().mainImage.setVisibility(View.GONE);
+        textStickersParentView.updateImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().bannerFlipper.showNext();
         textStickersParentView.setVisibility(View.VISIBLE);
 
         autoScaleImageToFitBounds();
@@ -215,7 +211,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
                 .subscribe(
                         bitmap -> {
                             if (addedViews.size() > 0) {
-                                activity.changeMainBitmap(bitmap, true);
+                                ensureEditActivity().changeMainBitmap(bitmap, true);
                             }
                             backToMain();
                         },
@@ -272,7 +268,7 @@ public class AddTextFragment extends BaseEditFragment implements OnPhotoEditorLi
         MultiTouchListener multiTouchListener = new MultiTouchListener(
                 imgClose,
                 this.textStickersParentView,
-                activity.mainImage,
+                ensureEditActivity().mainImage,
                 this, getContext());
         multiTouchListener.setOnGestureControl(new OnGestureControl() {
 

@@ -58,7 +58,6 @@ public class StickerFragment extends BaseEditFragment {
         flipper = null;
         stickerView =null;
         stickerAdapter = null;
-        loadingDialog = null;
     }
 
     @Override
@@ -84,15 +83,15 @@ public class StickerFragment extends BaseEditFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.stickerView = activity.stickerView;
+        this.stickerView = ensureEditActivity().stickerView;
         flipper = getView().findViewById(R.id.flipper);
-        flipper.setInAnimation(activity, R.anim.in_bottom_to_top);
-        flipper.setOutAnimation(activity, R.anim.out_bottom_to_top);
+        flipper.setInAnimation(ensureEditActivity(), R.anim.in_bottom_to_top);
+        flipper.setOutAnimation(ensureEditActivity(), R.anim.out_bottom_to_top);
 
         RecyclerView typeList = getView()
                 .findViewById(R.id.stickers_type_list);
         typeList.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(ensureEditActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         typeList.setLayoutManager(mLayoutManager);
         typeList.setAdapter(new StickerTypeAdapter(this));
@@ -100,7 +99,7 @@ public class StickerFragment extends BaseEditFragment {
         RecyclerView stickerList = getView().findViewById(R.id.stickers_list);
         stickerList.setHasFixedSize(true);
         LinearLayoutManager stickerListLayoutManager = new LinearLayoutManager(
-                activity);
+                ensureEditActivity());
         stickerListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         stickerList.setLayoutManager(stickerListLayoutManager);
         stickerAdapter = new StickerAdapter(this);
@@ -115,10 +114,10 @@ public class StickerFragment extends BaseEditFragment {
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_STICKERS;
-        activity.stickerFragment.getStickerView().setVisibility(
+        ensureEditActivity().mode = EditImageActivity.MODE_STICKERS;
+        ensureEditActivity().stickerFragment.getStickerView().setVisibility(
                 View.VISIBLE);
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().bannerFlipper.showNext();
     }
 
     public void swipToStickerDetails(String path, int stickerCount) {
@@ -152,22 +151,23 @@ public class StickerFragment extends BaseEditFragment {
     @Override
     public void onDestroy() {
         compositeDisposable.dispose();
+        loadingDialog = null;
         super.onDestroy();
     }
 
     @Override
     public void backToMain() {
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(0);
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(0);
         stickerView.clear();
         stickerView.setVisibility(View.GONE);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().bannerFlipper.showPrevious();
     }
 
     public void applyStickers() {
         compositeDisposable.clear();
 
-        Disposable saveStickerDisposable = applyStickerToImage(activity.getMainBit())
+        Disposable saveStickerDisposable = applyStickerToImage(ensureEditActivity().getMainBit())
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscriber -> loadingDialog.show())
@@ -178,7 +178,7 @@ public class StickerFragment extends BaseEditFragment {
                     }
 
                     stickerView.clear();
-                    activity.changeMainBitmap(bitmap, true);
+                    ensureEditActivity().changeMainBitmap(bitmap, true);
                     backToMain();
                 }, e -> {
                     Toast.makeText(getActivity(), R.string.iamutkarshtiwari_github_io_ananas_save_error, Toast.LENGTH_SHORT).show();

@@ -30,6 +30,13 @@ public class SaturationFragment extends BaseEditFragment {
         return new SaturationFragment();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mSaturationView =null;
+        mSeekBar =null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +67,7 @@ public class SaturationFragment extends BaseEditFragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 float value = progress - (seekBar.getMax() / 2);
-                activity.saturationView.setSaturation(value / 10f);
+                ensureEditActivity().saturationView.setSaturation(value / 10f);
             }
 
             @Override
@@ -78,25 +85,25 @@ public class SaturationFragment extends BaseEditFragment {
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_SATURATION;
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        activity.mainImage.setVisibility(View.GONE);
+        ensureEditActivity().mode = EditImageActivity.MODE_SATURATION;
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+        ensureEditActivity().mainImage.setVisibility(View.GONE);
 
-        activity.saturationView.setImageBitmap(activity.getMainBit());
-        activity.saturationView.setVisibility(View.VISIBLE);
+        ensureEditActivity().saturationView.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().saturationView.setVisibility(View.VISIBLE);
         initView();
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().bannerFlipper.showNext();
     }
 
     @Override
     public void backToMain() {
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(0);
-        activity.mainImage.setVisibility(View.VISIBLE);
-        activity.saturationView.setVisibility(View.GONE);
-        activity.bannerFlipper.showPrevious();
-        activity.saturationView.setSaturation(INITIAL_SATURATION);
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(0);
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().saturationView.setVisibility(View.GONE);
+        ensureEditActivity().bannerFlipper.showPrevious();
+        ensureEditActivity().saturationView.setSaturation(INITIAL_SATURATION);
     }
 
     public void applySaturation() {
@@ -105,7 +112,7 @@ public class SaturationFragment extends BaseEditFragment {
             return;
         }
         Bitmap bitmap = ((BitmapDrawable) mSaturationView.getDrawable()).getBitmap();
-        activity.changeMainBitmap(Utils.saturationBitmap(bitmap, mSaturationView.getSaturation()), true);
+        ensureEditActivity().changeMainBitmap(Utils.saturationBitmap(bitmap, mSaturationView.getSaturation()), true);
         backToMain();
     }
 

@@ -34,7 +34,6 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
 
     private static final int RIGHT_ANGLE = 90;
 
-    private RotateImageView rotatePanel;
     private Dialog loadingDialog;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -42,6 +41,7 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     public static RotateFragment newInstance() {
         return new RotateFragment();
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,6 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        this.rotatePanel = ensureEditActivity().rotatePanel;
         setClickListeners();
     }
 
@@ -81,26 +80,26 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_ROTATE;
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        activity.mainImage.setVisibility(View.GONE);
+        ensureEditActivity().mode = EditImageActivity.MODE_ROTATE;
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+        ensureEditActivity().mainImage.setVisibility(View.GONE);
 
-        activity.rotatePanel.addBit(activity.getMainBit(),
-                activity.mainImage.getBitmapRect());
+        ensureEditActivity().rotatePanel.addBit(ensureEditActivity().getMainBit(),
+                ensureEditActivity().mainImage.getBitmapRect());
 
-        activity.rotatePanel.reset();
-        activity.rotatePanel.setVisibility(View.VISIBLE);
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().rotatePanel.reset();
+        ensureEditActivity().rotatePanel.setVisibility(View.VISIBLE);
+        ensureEditActivity().bannerFlipper.showNext();
     }
 
     @Override
     public void backToMain() {
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(0);
-        activity.mainImage.setVisibility(View.VISIBLE);
-        this.rotatePanel.setVisibility(View.GONE);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(0);
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().rotatePanel.setVisibility(View.GONE);
+        ensureEditActivity().bannerFlipper.showPrevious();
     }
 
     @Override
@@ -112,6 +111,7 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     @Override
     public void onDestroy() {
         compositeDisposable.dispose();
+        loadingDialog =null ;
         super.onDestroy();
     }
 
@@ -126,20 +126,20 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.rotate_left) {
-            int updatedAngle = rotatePanel.getRotateAngle() - RIGHT_ANGLE;
-            rotatePanel.rotateImage(updatedAngle);
+            int updatedAngle = ensureEditActivity().rotatePanel.getRotateAngle() - RIGHT_ANGLE;
+            ensureEditActivity().rotatePanel.rotateImage(updatedAngle);
         } else if (id == R.id.rotate_right) {
-            int updatedAngle = rotatePanel.getRotateAngle() + RIGHT_ANGLE;
-            rotatePanel.rotateImage(updatedAngle);
+            int updatedAngle = ensureEditActivity().rotatePanel.getRotateAngle() + RIGHT_ANGLE;
+            ensureEditActivity().rotatePanel.rotateImage(updatedAngle);
         }
     }
 
     public void applyRotateImage() {
-        if (rotatePanel.getRotateAngle() == 0 || (rotatePanel.getRotateAngle() % 360) == 0) {
+        if (ensureEditActivity().rotatePanel.getRotateAngle() == 0 || (ensureEditActivity().rotatePanel.getRotateAngle() % 360) == 0) {
             backToMain();
         } else {
             compositeDisposable.clear();
-            Disposable applyRotationDisposable = applyRotation(activity.getMainBit())
+            Disposable applyRotationDisposable = applyRotation(ensureEditActivity().getMainBit())
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(subscriber -> loadingDialog.show())
@@ -159,7 +159,7 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
 
     private Single<Bitmap> applyRotation(Bitmap sourceBitmap) {
         return Single.fromCallable(() -> {
-            RectF imageRect = rotatePanel.getImageNewRect();
+            RectF imageRect = ensureEditActivity().rotatePanel.getImageNewRect();
             Bitmap resultBitmap = Bitmap.createBitmap((int) imageRect.width(),
                     (int) imageRect.height(), Bitmap.Config.ARGB_4444);
 
@@ -177,7 +177,7 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
                     + sourceBitmap.getHeight());
             canvas.save();
             canvas.rotate(
-                    rotatePanel.getRotateAngle(),
+                    ensureEditActivity().rotatePanel.getRotateAngle(),
                     imageRect.width() / 2,
                     imageRect.height() / 2
             );
@@ -197,7 +197,7 @@ public class RotateFragment extends BaseEditFragment implements OnClickListener 
     }
 
     private void applyAndExit(Bitmap resultBitmap) {
-        activity.changeMainBitmap(resultBitmap, true);
+        ensureEditActivity().changeMainBitmap(resultBitmap, true);
         backToMain();
     }
 }

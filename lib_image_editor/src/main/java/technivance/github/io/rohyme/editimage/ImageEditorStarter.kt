@@ -7,15 +7,15 @@ import java.io.Serializable
 
 data class ImageEditorScreens(
     var withPaint: Boolean = false,
-    var withAddText: Boolean = true,
-    var withFilter: Boolean = true,
-    var withRotate: Boolean = true,
-    var withCrop: Boolean = true,
-    var withBrightness: Boolean = true,
-    var withSaturation: Boolean = true,
-    var withForcePortrait: Boolean = false,
-    var withStickers: Boolean = true,
-    var withBeauty: Boolean = true
+    var withAddText: Boolean = false,
+    var withFilter: Boolean = false,
+    var withRotate: Boolean = false,
+    var withCrop: Boolean = false,
+    var withBrightness: Boolean = false,
+    var withSaturation: Boolean = false,
+    var withForcePortrait: Boolean = true,
+    var withStickers: Boolean = false,
+    var withBeauty: Boolean = false
 ) : Serializable
 
 fun Fragment.startImageEditor(

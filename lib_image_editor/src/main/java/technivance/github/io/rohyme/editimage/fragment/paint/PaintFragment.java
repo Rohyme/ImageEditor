@@ -145,19 +145,19 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     }
 
     public void backToMain() {
-        activity.mode = EditImageActivity.MODE_NONE;
-        activity.bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
-        activity.mainImage.setVisibility(View.VISIBLE);
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().bottomGallery.setCurrentItem(MainMenuFragment.INDEX);
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().bannerFlipper.showPrevious();
 
         getCustomPaintView().reset();
         getCustomPaintView().setVisibility(View.GONE);
     }
 
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_PAINT;
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.bannerFlipper.showNext();
+        ensureEditActivity().mode = EditImageActivity.MODE_PAINT;
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().bannerFlipper.showNext();
 
         getCustomPaintView().setVisibility(View.VISIBLE);
     }
@@ -172,7 +172,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     public void savePaintImage() {
         compositeDisposable.clear();
 
-        Disposable applyPaintDisposable = applyPaint(activity.getMainBit())
+        Disposable applyPaintDisposable = applyPaint(ensureEditActivity().getMainBit())
                 .flatMap(bitmap -> {
                     if (bitmap == null) {
                         return Single.error(new Throwable("Error occurred while applying paint"));
@@ -186,7 +186,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
                 .doFinally(() -> loadingDialog.dismiss())
                 .subscribe(bitmap -> {
                     getCustomPaintView().reset();
-                    activity.changeMainBitmap(bitmap, true);
+                    ensureEditActivity().changeMainBitmap(bitmap, true);
                     backToMain();
                 }, e -> {
                     // Do nothing on error
@@ -203,7 +203,7 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
 
     private Single<Bitmap> applyPaint(Bitmap mainBitmap) {
         return Single.fromCallable(() -> {
-            Matrix touchMatrix = activity.mainImage.getImageViewMatrix();
+            Matrix touchMatrix = ensureEditActivity().mainImage.getImageViewMatrix();
 
             Bitmap resultBit = Bitmap.createBitmap(mainBitmap).copy(
                     Bitmap.Config.ARGB_8888, true);

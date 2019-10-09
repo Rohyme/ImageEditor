@@ -74,7 +74,7 @@ public class CropFragment extends BaseEditFragment {
 
         RatioText[] ratioTextList = RatioText.values();
         for (int i = 0; i < ratioTextList.length; i++) {
-            TextView text = new TextView(activity);
+            TextView text = new TextView(ensureEditActivity());
             toggleButtonStatus(text, false);
             text.setTextSize(15);
             text.setAllCaps(true);
@@ -122,7 +122,7 @@ public class CropFragment extends BaseEditFragment {
     }
 
     private int getColorFromRes(@ColorRes int resId) {
-        return ContextCompat.getColor(activity, resId);
+        return ContextCompat.getColor(ensureEditActivity()  , resId);
     }
 
     @Override
@@ -140,16 +140,16 @@ public class CropFragment extends BaseEditFragment {
 
     @Override
     public void onShow() {
-        activity.mode = EditImageActivity.MODE_CROP;
+        ensureEditActivity().mode = EditImageActivity.MODE_CROP;
 
-        activity.mainImage.setVisibility(View.GONE);
+        ensureEditActivity().mainImage.setVisibility(View.GONE);
         cropPanel.setVisibility(View.VISIBLE);
-        activity.mainImage.setImageBitmap(activity.getMainBit());
-        activity.mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        activity.mainImage.setScaleEnabled(false);
+        ensureEditActivity().mainImage.setImageBitmap(ensureEditActivity().getMainBit());
+        ensureEditActivity().mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+        ensureEditActivity().mainImage.setScaleEnabled(false);
 
-        activity.bannerFlipper.showNext();
-        cropPanel.setImageBitmap(activity.getMainBit());
+        ensureEditActivity().bannerFlipper.showNext();
+        cropPanel.setImageBitmap(ensureEditActivity().getMainBit());
         cropPanel.setFixedAspectRatio(false);
     }
 
@@ -164,18 +164,18 @@ public class CropFragment extends BaseEditFragment {
 
     @Override
     public void backToMain() {
-        activity.mode = EditImageActivity.MODE_NONE;
+        ensureEditActivity().mode = EditImageActivity.MODE_NONE;
         cropPanel.setVisibility(View.GONE);
-        activity.mainImage.setVisibility(View.VISIBLE);
+        ensureEditActivity().mainImage.setVisibility(View.VISIBLE);
 
-        activity.mainImage.setScaleEnabled(true);
-        activity.bottomGallery.setCurrentItem(0);
+        ensureEditActivity().mainImage.setScaleEnabled(true);
+        ensureEditActivity().bottomGallery.setCurrentItem(0);
 
         if (selectedTextView != null) {
             selectedTextView.setTextColor(getColorFromRes(UNSELECTED_COLOR));
         }
 
-        activity.bannerFlipper.showPrevious();
+        ensureEditActivity().bannerFlipper.showPrevious();
     }
 
 
@@ -186,7 +186,7 @@ public class CropFragment extends BaseEditFragment {
                 .doOnSubscribe(subscriber -> loadingDialogListener.showLoadingDialog())
                 .doFinally(() -> loadingDialogListener.dismissLoadingDialog())
                 .subscribe(bitmap -> {
-                    activity.changeMainBitmap(bitmap, true);
+                    ensureEditActivity().changeMainBitmap(bitmap, true);
                     backToMain();
                 }, e -> {
                     e.printStackTrace();

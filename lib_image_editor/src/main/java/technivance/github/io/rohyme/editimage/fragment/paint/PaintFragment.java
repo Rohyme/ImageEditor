@@ -198,6 +198,11 @@ public class PaintFragment extends BaseEditFragment implements View.OnClickListe
     @Override
     public void onDestroy() {
         compositeDisposable.dispose();
+        brushConfigDialog =null;
+        eraserConfigDialog =null;
+        brushView =null;
+        eraserView =null;
+        backToMenu =null;
         super.onDestroy();
     }
 

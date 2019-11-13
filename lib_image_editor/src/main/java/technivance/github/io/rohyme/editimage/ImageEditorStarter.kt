@@ -21,6 +21,7 @@ data class ImageEditorScreens(
 fun Fragment.startImageEditor(
     sourcePath: String?,
     destinationPath: String?,
+    requestCode: Int = EDIT_IMAGE_REQUEST,
     featuresScreens: (ImageEditorScreens.() -> Unit)? = null
 ) {
 
@@ -35,12 +36,13 @@ fun Fragment.startImageEditor(
     intent.putExtra(SOURCE_PATH, sourcePath)
     intent.putExtra(OUTPUT_PATH, destinationPath)
     intent.putExtra(FEATURES_SCREENS, features)
-    startActivityForResult(intent, EDIT_IMAGE_REQUEST)
+    startActivityForResult(intent, requestCode)
 }
 
 fun Activity.startImageEditor(
     sourcePath: String?,
     destinationPath: String?,
+    requestCode: Int = EDIT_IMAGE_REQUEST,
     featuresScreens: (ImageEditorScreens.() -> Unit)? = null
 ) {
     val intent = Intent(
@@ -54,16 +56,17 @@ fun Activity.startImageEditor(
     intent.putExtra(SOURCE_PATH, sourcePath)
     intent.putExtra(OUTPUT_PATH, destinationPath)
     intent.putExtra(FEATURES_SCREENS, features)
-    startActivityForResult(intent, EDIT_IMAGE_REQUEST)
+    startActivityForResult(intent, requestCode)
 }
 
 fun onEditImageResult(
     requestCode: Int,
     resultCode: Int,
     data: Intent?,
-    block: OnImageEdited.() -> Unit
+    specialRequestCode: Int = EDIT_IMAGE_REQUEST,
+            block : OnImageEdited .() -> Unit
 ) {
-    if (data != null && resultCode == Activity.RESULT_OK && requestCode == EDIT_IMAGE_REQUEST) {
+    if (data != null && resultCode == Activity.RESULT_OK && requestCode == specialRequestCode) {
         val isEdited = data.getBooleanExtra(IS_IMAGE_EDITED, false)
 
         val onImageEdited = OnImageEdited()

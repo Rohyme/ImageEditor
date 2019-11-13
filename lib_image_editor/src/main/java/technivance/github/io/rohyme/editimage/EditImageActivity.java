@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -380,8 +381,20 @@ public class EditImageActivity extends BaseActivity implements OnLoadingDialogLi
     }
 
     private Single<Bitmap> loadImage(String filePath) {
-        return Single.fromCallable(() -> BitmapUtils.getSampledBitmap(filePath, imageWidth,
-                imageHeight));
+        if (filePath.startsWith("http")) {
+            return Single.fromCallable(() ->
+                    Glide
+                            .with(this)
+                            .asBitmap()
+                            .load(filePath)
+                            .submit(imageHeight, imageWidth)
+                            .get()
+            );
+
+        } else {
+            return Single.fromCallable(() -> BitmapUtils.getSampledBitmap(filePath, imageWidth,
+                    imageHeight));
+        }
     }
 
     private void showToast(@StringRes int resId) {

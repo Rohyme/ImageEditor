@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         pickImage.setOnClickListener {
             askPermissions(
                 android.Manifest.permission.CAMERA,
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         editImage.setOnClickListener {
             imagePath?.let {
-                startImageEditor(it, getDestinationUrl(it)) {
+                startImageEditor("https://stimg.cardekho.com/images/carexteriorimages/930x620/MG/MG-Hector/6733/1558094553503/front-left-side-47.jpg", getDestinationUrl(it)) {
                     withForcePortrait = true
                     withPaint = true
                     withCrop = true
